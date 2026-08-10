@@ -1,8 +1,7 @@
 services:
   # ── Backend API ──────────────────────────────────────────────────────────────
-  # URL: https://proxymuktbackend.onrender.com
   - type: web
-    name: proxymuktbackend
+    name: backend
     env: node
     plan: free
     region: oregon
@@ -12,31 +11,26 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
       - key: CLIENT_URL
-        value: https://proxymukt.onrender.com
-      # Secrets — set these in Render dashboard, not here:
-      # MONGODB_URI, JWT_SECRET, JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, QR_SECRET
-      # ADMIN_NAME, ADMIN_EMAIL, ADMIN_PASSWORD
-      # ZOOM_ACCOUNT_ID, ZOOM_CLIENT_ID, ZOOM_CLIENT_SECRET
-      # EMAIL_SERVICE, EMAIL_USER, EMAIL_PASSWORD, EMAIL_FROM
+        value: https://onrender.com
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
     healthCheckPath: /health
     autoDeploy: true
 
   # ── Frontend Static Site ──────────────────────────────────────────────────────
-  # URL: https://proxymukt.onrender.com
-  # SPA routing is handled by client/public/_redirects (checked after file lookup,
-  # so asset files like /assets/*.js are never intercepted).
-  - type: web
-    name: proxymukt
-    env: static
+  - type: web                         # 🟢 FIXED: Type must remain 'web'
+    name: clgproject
+    env: static                       # 🟢 FIXED: Env handles static tracking
     plan: free
     region: oregon
     rootDir: client
-    buildCommand: npm install --production=false && node node_modules/vite/bin/vite.js build
+    buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: https://proxymuktbackend.onrender.com/api
+        value: https://onrender.com
     autoDeploy: true
+
