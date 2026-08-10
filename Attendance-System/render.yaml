@@ -1,5 +1,5 @@
 services:
-  # ── Backend API ──────────────────────────────────────────────────────────────
+  # ── Backend API (Dynamic Web Service) ────────────────────────────────────────
   - type: web
     name: backend
     env: node
@@ -13,6 +13,7 @@ services:
         value: production
       - key: CLIENT_URL
         value: https://onrender.com
+      # Secrets placeholders - Render will securely prompt you for these
       - key: MONGODB_URI
         sync: false
       - key: JWT_SECRET
@@ -20,10 +21,9 @@ services:
     healthCheckPath: /health
     autoDeploy: true
 
-  # ── Frontend Static Site ──────────────────────────────────────────────────────
-  - type: web                         # 🟢 FIXED: Type must remain 'web'
+  # ── Frontend Static Site (Correct Property Form) ─────────────────────────────
+  - type: static                      # 🟢 Core fix: Top level must be 'static'
     name: clgproject
-    env: static                       # 🟢 FIXED: Env handles static tracking
     plan: free
     region: oregon
     rootDir: client
@@ -33,4 +33,3 @@ services:
       - key: VITE_API_URL
         value: https://onrender.com
     autoDeploy: true
-
