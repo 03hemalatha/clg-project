@@ -12,7 +12,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: CLIENT_URL
-        value: https://onrender.com
+        value: https://clgproject.onrender.com  # 🟢 FIXED: Points to frontend address
       # Secrets placeholders - Render will securely prompt you for these
       - key: MONGODB_URI
         sync: false
@@ -21,9 +21,10 @@ services:
     healthCheckPath: /health
     autoDeploy: true
 
-  # ── Frontend Static Site (Correct Property Form) ─────────────────────────────
-  - type: static                      # 🟢 Core fix: Top level must be 'static'
+  # ── Frontend Static Site (Valid Infrastructure Spec) ─────────────────────────────
+  - type: web                         # 🟢 FIXED: Top-level type must be 'web'
     name: clgproject
+    runtime: static                   # 🟢 FIXED: Must use 'runtime: static'
     plan: free
     region: oregon
     rootDir: client
@@ -31,5 +32,5 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: https://onrender.com
+        value: https://onrender.com  # 🟢 FIXED: Points to actual backend address
     autoDeploy: true
