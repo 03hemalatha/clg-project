@@ -1,6 +1,5 @@
 services:
-  # ── Backend API ──────────────────────────────────────────────────────────────
-  # URL: https://backend.onrender.com
+  # ── Backend API (Dynamic Web Service) ────────────────────────────────────────
   - type: web
     name: backend
     env: node
@@ -12,25 +11,20 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
       - key: CLIENT_URL
-        value: https://backend.onrender.com
-      # Secrets — set these in Render dashboard, not here:
-      # MONGODB_URI, JWT_SECRET, JWT_ACCESS_SECRET, JWT_REFRESH_SECRET, QR_SECRET
-      # ADMIN_NAME, ADMIN_EMAIL, ADMIN_PASSWORD
-      # ZOOM_ACCOUNT_ID, ZOOM_CLIENT_ID, ZOOM_CLIENT_SECRET
-      # EMAIL_SERVICE, EMAIL_USER, EMAIL_PASSWORD, EMAIL_FROM
+        value: https://clgproject.onrender.com  # 🟢 FIXED: Points to frontend address
+      # Secrets placeholders - Render will securely prompt you for these
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
     healthCheckPath: /health
     autoDeploy: true
 
-  # ── Frontend Static Site ──────────────────────────────────────────────────────
-  # URL: https://proxymukt.onrender.com
-  # SPA routing is handled by client/public/_redirects (checked after file lookup,
-  # so asset files like /assets/*.js are never intercepted).
-  - type: static
+  # ── Frontend Static Site (Valid Infrastructure Spec) ─────────────────────────────
+  - type: web                         # 🟢 FIXED: Top-level type must be 'web'
     name: clgproject
-    env: static
+    runtime: static                   # 🟢 FIXED: Must use 'runtime: static'
     plan: free
     region: oregon
     rootDir: client
@@ -38,5 +32,6 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: https://backend.onrender.com/api
+        value: https://onrender.com  # 🟢 FIXED: Points to actual backend address
     autoDeploy: true
+
