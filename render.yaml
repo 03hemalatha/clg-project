@@ -26,7 +26,6 @@ services:
     name: clgproject
     runtime: static                   # 🟢 FIXED: Must use 'runtime: static'
     plan: free
-    region: oregon
     rootDir: client
     buildCommand: npm install && npm run build
     staticPublishPath: dist
